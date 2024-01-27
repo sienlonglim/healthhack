@@ -76,6 +76,7 @@ def main():
         if st.button('Clear chat history', type='primary'):
             with st.status('Clearing chat history') as status:
                 vector_db.clear_memory()
+                st.session_state.messages.clear()
                 status.update(label='Chat history cleared!', state='complete')
                 
         #------------------------------------- MAIN PAGE -----------------------------------------#

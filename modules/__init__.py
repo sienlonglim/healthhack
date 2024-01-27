@@ -1,1 +1,1 @@
-__all__ = ['InfoLoader.py', 'VectorDB.py']
+__all__ = ['CustomLoader.py', 'VectorDB.py']

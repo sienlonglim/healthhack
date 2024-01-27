@@ -74,13 +74,16 @@ def main():
     if namespace in st.secrets['users']:
         vector_db = get_resources(namespace)  
         if st.button('Clear chat history', type='primary'):
-            vector_db.clear_memory()
-
+            with st.status('Clearing chat history') as status:
+                vector_db.clear_memory()
+                status.update(label='Chat history cleared!', state='complete')
+                
         #------------------------------------- MAIN PAGE -----------------------------------------#
         st.markdown("## :rocket: Health Hack: Conversation RAG Bot")    
         st.caption('by Jeremy, Mark, Kenny and Sien Long')
         with st.chat_message("assistant"):
-            st.write("Hello 👋, please remember to clear my history first, otherwise I will remember what we talked about (even if it is not on the screen hahaha)")
+            st.write("Hello 👋, please remember to clear the chat history first")
+            st.write("Otherwise I might remember what we talked about (even if it is not on the screen!)")
 
         # Display chat messages from history on app rerun
         for message in st.session_state.messages:

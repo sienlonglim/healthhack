@@ -12,6 +12,7 @@ import pinecone
 import logging.config
 import os
 import streamlit as st
+import requests
 logger = logging.getLogger(__name__)
 
 class VectorDB():
@@ -31,13 +32,13 @@ class VectorDB():
         '''
         index_name = config['db_options']['index_name']
         if config['local']:
-            pc_api_key = os.environ['PC_API_KEY']
+            self.pc_api_key = os.environ['PC_API_KEY']
             openai_api_key = os.environ['OPENAI_API_KEY']
         else:
-            pc_api_key = st.secrets['PC_API_KEY']
+            self.pc_api_key = st.secrets['PC_API_KEY']
             openai_api_key = os.environ['OPENAI_API_KEY']
         
-        pc = pinecone.Pinecone(api_key=pc_api_key)
+        pc = pinecone.Pinecone(api_key=self.pc_api_key)
         self.index = pc.Index(index_name)
         self.embedding_function = OpenAIEmbeddings(
             deployment="SL-document_embedder",
@@ -123,4 +124,15 @@ class VectorDB():
     def clear_memory(self):
         self.memory.clear()
         logger.info('Memory cleared')
+    
+    # def get_vector_list(self):
+    #     url = "https://healthhack-2nyyyl3.svc.gcp-starter.pinecone.io/describe_index_stats"
+
+    #     headers = {
+    #         "accept": "application/json",
+    #         "content-type": "application/json",
+    #         "Api-Key": self.pc_api_key
+    #     }
+    #     response = requests.post(url, headers=headers)
+    #     return response.text
         

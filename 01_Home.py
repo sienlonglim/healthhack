@@ -78,6 +78,7 @@ def main():
                 vector_db.clear_memory()
                 st.session_state.messages.clear()
                 status.update(label='Chat history cleared!', state='complete')
+        # st.write(vector_db.get_vector_list())
                 
         #------------------------------------- MAIN PAGE -----------------------------------------#
         st.markdown("## :rocket: Health Hack: Conversation RAG Bot")    

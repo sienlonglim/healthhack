@@ -59,9 +59,7 @@ def main():
                 with st.status('Uploading', expanded=True) as status:
                     loader.upload_to_server(namespace)
                     st.write('Uploaded')
-                    st.write(loader)
+                    st.write('https://app.pinecone.io/organizations/-NozZ63rU57hDd_oE3zM/projects/gcp-starter:2nyyyl3/indexes/healthhack/browser')
                     
-
-
 if __name__ == "__main__":
     main()

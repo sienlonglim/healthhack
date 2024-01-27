@@ -46,7 +46,7 @@ class VectorDB():
         logger.info(f"\n{pc.describe_index(index_name)}")
         self.llm = ChatOpenAI(
             model_name=config['llm'],
-            temperature=1,
+            temperature=0.5,
             openai_api_key = openai_api_key
             )
         logger.info(f"llm model: {config['llm']}")
@@ -85,7 +85,8 @@ class VectorDB():
             search_kwargs = {"k": 1}
         )
 
-        template = """Answer the question based only on the following context:
+        template = """Answer the question based only on the following context, 
+        do not make up any information, if you do not have information in the context, just say that you do not know:
         {context}
 
         Question: {question}

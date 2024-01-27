@@ -84,7 +84,8 @@ class CustomLoader():
         index_name (str) : name of index
         '''
         self.index = vector_db.Index(index_name)
-        logger.info(vector_db.describe_index(index_name))
+        logger.info(f'Index called: {index_name}')
+        # logger.info(vector_db.describe_index(index_name))
         
 
     def upload_to_server(self, namespace : str)-> None:
@@ -101,13 +102,25 @@ class CustomLoader():
         self.metadatas.clear()
     
     def clear_docs(self):
+        '''
+        Clears all currently loaded data
+        '''
         self.texts.clear()
         self.metadatas.clear()
 
     def create_embeddings(self):
+        '''
+        Creates and returns all embeddings (vectors) of current texts
+        '''
         return self.embedding_function.embed_documents(self.texts)
     
     def delete_docs(self, docs_to_delete: list):
+        '''
+        Deletes specified texts and corresponding metadata
+        # Parameters
+        -------------
+        docs_to_delete (list): a list of indices to delete
+        '''
         for idx in docs_to_delete:
             del self.texts[idx]
             del self.metadatas[idx]

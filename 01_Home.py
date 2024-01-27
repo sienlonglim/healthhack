@@ -73,9 +73,12 @@ def main():
     
     if namespace in st.secrets['users']:
         vector_db = get_resources(namespace)  
+        if st.button('Clear chat history', type='primary'):
+            vector_db.clear_memory()
 
         #------------------------------------- MAIN PAGE -----------------------------------------#
-        st.markdown("## :rocket: Health Hack: Conversation RAG Bot by Jeremy, Mark, Kenny and Sien Long")    
+        st.markdown("## :rocket: Health Hack: Conversation RAG Bot")    
+        st.caption('by Jeremy, Mark, Kenny and Sien Long')
         with st.chat_message("assistant"):
             st.write("Hello 👋")
 

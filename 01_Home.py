@@ -80,7 +80,7 @@ def main():
         st.markdown("## :rocket: Health Hack: Conversation RAG Bot")    
         st.caption('by Jeremy, Mark, Kenny and Sien Long')
         with st.chat_message("assistant"):
-            st.write("Hello 👋")
+            st.write("Hello 👋, please remember to clear my history first, otherwise I will remember what we talked about (even if it is not on the screen hahaha)")
 
         # Display chat messages from history on app rerun
         for message in st.session_state.messages:

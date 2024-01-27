@@ -1,0 +1,13 @@
+local: True
+embedding_options:
+  model : 'text-embedding-ada-002' # Upgrade to 'text-embedding-3-small' once ready # str
+llm: 'gpt-3.5-turbo-1106' # str
+db_options:
+  index_name : 'healthhack'
+splitter_options:
+  split_by_token : True # bool
+  chunk_size : 2000 # int
+  chunk_overlap : 0 # int
+  chunk_separators : ['\n\n', '\n', ' '] # list of strings
+  clean_regex : True # bool
+  regex_patterns : ['\n{3,}|\s{3,}|\t+'] #list of regex patterns or None

@@ -81,7 +81,7 @@ def main():
         # st.write(vector_db.get_vector_list())
                 
         #------------------------------------- MAIN PAGE -----------------------------------------#
-        st.markdown("## :rocket: Health Hack: Conversation RAG Bot")    
+        st.markdown("## :rocket: Health Hack: Conversational RAG Bot")    
         st.caption('by Jeremy, Mark, Kenny and Sien Long')
         with st.chat_message("assistant"):
             st.write("Hello 👋, please remember to clear the chat history first")
@@ -94,14 +94,16 @@ def main():
 
         # Accept user input
         if prompt := st.chat_input("What is diabetes?"):
-            # Add user message to chat history
-            st.session_state.messages.append({"role": "user", "content": prompt})
-            answer = vector_db.query(prompt)
-            st.session_state.messages.append({"role": "assistant", "content": answer})
-
             # Display user message in chat message container
             with st.chat_message("user"):
                 st.markdown(prompt)
+            
+            with st.spinner():
+                # Add user message to chat history
+                st.session_state.messages.append({"role": "user", "content": prompt})
+                answer = vector_db.query(prompt)
+                st.session_state.messages.append({"role": "assistant", "content": answer})
+            
             # Display assistant response in chat message container
             with st.chat_message("assistant"):
                 st.markdown(answer)

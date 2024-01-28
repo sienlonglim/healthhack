@@ -30,7 +30,10 @@ class VectorDB():
             embedding_model
 
         '''
+        # Read config
         index_name = config['db_options']['index_name']
+        embedding_model = config['embedding_options']['model']
+
         if config['local']:
             self.pc_api_key = os.environ['PC_API_KEY']
             openai_api_key = os.environ['OPENAI_API_KEY']
@@ -38,18 +41,20 @@ class VectorDB():
             self.pc_api_key = st.secrets['PC_API_KEY']
             openai_api_key = os.environ['OPENAI_API_KEY']
         
+        # Create pinecone connection, embedding model, llm
         pc = pinecone.Pinecone(api_key=self.pc_api_key)
         self.index = pc.Index(index_name)
         self.embedding_function = OpenAIEmbeddings(
             deployment="SL-document_embedder",
-            model=config['embedding_options']['model'],
+            model=embedding_model,
             show_progress_bar=True)
-        logger.info(f"\n{pc.describe_index(index_name)}")
         self.llm = ChatOpenAI(
             model_name=config['llm'],
             temperature=0.5,
             openai_api_key = openai_api_key
             )
+        # Log info
+        logger.info(f"Host: {pc.describe_index(index_name)['host']}")
         logger.info(f"llm model: {config['llm']}")
       
     def create_retriever(self, namespace):
@@ -83,16 +88,26 @@ class VectorDB():
 
         langchain_retriever = self.retriever.as_retriever(
             search_type="similarity", # mmr, similarity_score_threshold, similarity
-            search_kwargs = {"k": 1}
+            search_kwargs = {"k": 2}
         )
 
-        template = """Answer the question based only on the following context, 
-        do not make up any information, if you do not have information in the context, just say that you do not know:
+        # template = """Answer the question based only on the following context, 
+        # do not make up any information, if you do not have information in the context, just say that you do not know:
+        # {context}
+
+        # Question: {question}
+        # """
+
+        template_v2 = """Use the following pieces of context to answer the user question. This context retrieved from a knowledge base and you should use only the facts from the context to answer.
+        Your answer must be based on the context. If the context not contain the answer, just say that 'I don't know', don't try to make up an answer, use the context.
+        Don't address the context directly, but use it to answer the user question like it's your own knowledge.
+
+        Context:
         {context}
 
         Question: {question}
         """
-        ANSWER_PROMPT = ChatPromptTemplate.from_template(template)
+        ANSWER_PROMPT = ChatPromptTemplate.from_template(template_v2)
 
         _context = {
             "context": itemgetter("standalone_question") | langchain_retriever ,

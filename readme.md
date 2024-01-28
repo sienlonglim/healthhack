@@ -17,5 +17,10 @@ Domain areas include:
 - Optimize retrieval
 - User testing
 
+### 20240128:
+- Optimized chat to always show user prompt as soon as sent
+- Updated logger to log conversation history before clearing the chat
+
 ### 20240127:
 - MVP1
+- Completed conversation page and uploading page

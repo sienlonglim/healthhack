@@ -1,4 +1,3 @@
-from modules.CustomLoader import CustomLoader
 from modules.VectorDB import VectorDB
 import streamlit as st
 import yaml
@@ -62,7 +61,7 @@ def main():
     Main Function for streamlit interface
     '''
     # Load configs, logger, classes
-    st.set_page_config(page_title="Conversation RAG Bot")
+    st.set_page_config(page_title="Conversational RAG Bot")
     initialize_session_state()    
     if st.session_state.config['local']:
         logger = configure_logging('app.log')
@@ -75,6 +74,7 @@ def main():
         vector_db = get_resources(namespace)  
         if st.button('Clear chat history', type='primary'):
             with st.status('Clearing chat history') as status:
+                logger.info(f"Saving conversation history before clearing:\n{st.session_state.messages}")
                 vector_db.clear_memory()
                 st.session_state.messages.clear()
                 status.update(label='Chat history cleared!', state='complete')

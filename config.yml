@@ -1,7 +1,7 @@
 local: False
 embedding_options:
-  model : 'text-embedding-ada-002' # Upgrade to 'text-embedding-3-small' once ready # str
-llm: 'gpt-3.5-turbo-1106' # str
+  model : 'text-embedding-ada-002' # 'text-embedding-3-small'# str
+llm: 'gpt-4-turbo-preview' #gpt-3.5-turbo-1106' # str
 db_options:
   index_name : 'healthhack'
 splitter_options:

@@ -108,7 +108,7 @@ class CustomLoader():
         self.texts.clear()
         self.metadatas.clear()
 
-    def create_embeddings(self):
+    def create_embeddings_all(self):
         '''
         Creates and returns all embeddings (vectors) of current texts
         '''

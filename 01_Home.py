@@ -78,11 +78,11 @@ def main():
                 vector_db.clear_memory()
                 st.session_state.messages.clear()
                 status.update(label='Chat history cleared!', state='complete')
-        # st.write(vector_db.get_vector_list())
                 
         #------------------------------------- MAIN PAGE -----------------------------------------#
         st.markdown("## :rocket: Health Hack: Conversational RAG Bot")    
         st.caption('by Jeremy, Mark, Kenny and Sien Long')
+        st.caption(f"Powered by: {st.session_state.config['llm']} and {st.session_state.config['embedding_options']['model']}")
         with st.chat_message("assistant"):
             st.write("Hello 👋, please remember to clear the chat history first")
             st.write("Otherwise I might remember what we talked about (even if it is not on the screen!)")
@@ -93,7 +93,7 @@ def main():
                 st.markdown(message["content"])
 
         # Accept user input
-        if prompt := st.chat_input("What is diabetes?"):
+        if prompt := st.chat_input("Enter question"):
             # Display user message in chat message container
             with st.chat_message("user"):
                 st.markdown(prompt)
@@ -107,7 +107,7 @@ def main():
             # Display assistant response in chat message container
             with st.chat_message("assistant"):
                 st.markdown(answer)
-        
+
         # st.info('Most recent source used', icon='📚')
         # for field in metadata:
         #     st.write()

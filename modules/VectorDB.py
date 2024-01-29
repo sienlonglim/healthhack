@@ -140,7 +140,19 @@ class VectorDB():
         self.memory.clear()
         logger.info('Memory cleared')
     
+    def create_embeddings(self, query: str):
+        '''
+        Creates and returns embeddings (vectors) of an input
+        # Parameters
+        --------------
+        query (str): query to get the vector of
+        '''
+        return self.embedding_function.embed_documents(query)
+
     # def get_vector_list(self):
+    #     '''
+    #     API call to get index stats, but doesnt work
+    #     '''
     #     url = "https://healthhack-2nyyyl3.svc.gcp-starter.pinecone.io/describe_index_stats"
 
     #     headers = {

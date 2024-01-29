@@ -23,7 +23,7 @@ def get_resources():
     return loader
 
 def main():
-    st.set_page_config(page_title="Admin page")
+    st.set_page_config(page_title="Loader")
     initialize_session_state()
     namespace = st.text_input('Enter user', value="")
     

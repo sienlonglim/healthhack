@@ -44,6 +44,9 @@ def initialize_session_state():
     
     if "messages" not in st.session_state:
         st.session_state.messages = []
+
+    if "valid_user" not in st.session_state:
+        st.session_state.valid_user = False
         
 @st.cache_resource
 def get_resources(namespace):
@@ -52,37 +55,62 @@ def get_resources(namespace):
     '''
     vector_db = VectorDB(st.session_state.config)
     vector_db.create_retriever(namespace=namespace)
-    vector_db.create_chain()
+    vector_db.create_chain(k=1, return_source=True)
 
     return vector_db
+
+@st.cache_data
+def login(namespace):
+    '''
+    Side bar for login
+    '''
+    if namespace in st.secrets['users']:
+        return True, namespace
+    else:
+        return False, None
 
 def main():
     '''
     Main Function for streamlit interface
     '''
     # Load configs, logger, classes
-    st.set_page_config(page_title="Conversational RAG Bot")
+    st.set_page_config(page_title="Conversational Medical Report Explainer")
     initialize_session_state()    
     if st.session_state.config['local']:
         logger = configure_logging('app.log')
     else: 
         logger = configure_logging(streaming=True)
     
-    namespace = st.text_input('Enter user', value="")
+    # ----------------------------------- SIDE BAR ------------------------------------------ #
+    with st.sidebar:
+        namespace = st.text_input('Enter username', value="")
+        start = st.button('Start', type='primary')
+        if start:
+           st.session_state['valid_user'], namespace = login(namespace)
     
-    if namespace in st.secrets['users']:
+    #------------------------------------- MAIN PAGE -----------------------------------------#
+    st.markdown("## :rocket: Health Hack: Conversational RAG Bot")    
+    st.caption('by Jeremy, Mark, Kenny and Sien Long')
+    st.caption(f"Powered by LLMs: {st.session_state.config['llm']}, {st.session_state.config['embedding_options']['model']}")
+    if not st.session_state['valid_user']:
+        st.warning('Enter valid username on the sidebar to begin', icon='⚠')
+    else:               
+        # Initialise vector db
         vector_db = get_resources(namespace)  
+
+        # Button to clear history
         if st.button('Clear chat history', type='primary'):
             with st.status('Clearing chat history') as status:
-                logger.info(f"Saving conversation history before clearing:\n{st.session_state.messages}")
-                vector_db.clear_memory()
-                st.session_state.messages.clear()
-                status.update(label='Chat history cleared!', state='complete')
-                
-        #------------------------------------- MAIN PAGE -----------------------------------------#
-        st.markdown("## :rocket: Health Hack: Conversational RAG Bot")    
-        st.caption('by Jeremy, Mark, Kenny and Sien Long')
-        st.caption(f"Powered by: {st.session_state.config['llm']} and {st.session_state.config['embedding_options']['model']}")
+                    logger.info(f"Saving conversation history before clearing:\n{st.session_state.messages}")
+                    vector_db.clear_memory()
+                    st.session_state.messages.clear()
+                    status.update(label='Chat history cleared!', state='complete')
+
+        with st.sidebar:
+            if st.button('Get sample medical report', type='primary'):
+                st.write(vector_db.sample_medical_report('healthhack_sample'))
+
+        # Starting message
         with st.chat_message("assistant"):
             st.write("Hello 👋, please remember to clear the chat history first")
             st.write("Otherwise I might remember what we talked about (even if it is not on the screen!)")
@@ -93,7 +121,7 @@ def main():
                 st.markdown(message["content"])
 
         # Accept user input
-        if prompt := st.chat_input("Enter question"):
+        if prompt := st.chat_input("Enter question about something in the medical report."):
             # Display user message in chat message container
             with st.chat_message("user"):
                 st.markdown(prompt)
@@ -101,17 +129,13 @@ def main():
             with st.spinner():
                 # Add user message to chat history
                 st.session_state.messages.append({"role": "user", "content": prompt})
-                answer = vector_db.query(prompt)
+                answer = vector_db.query(prompt, return_source=True)
                 st.session_state.messages.append({"role": "assistant", "content": answer})
             
             # Display assistant response in chat message container
             with st.chat_message("assistant"):
                 st.markdown(answer)
-
-        # st.info('Most recent source used', icon='📚')
-        # for field in metadata:
-        #     st.write()
-        #     st.write('-----------------------------------')
+                # st.markdown('Here's my source', icon='📚')
 
 if __name__ == '__main__':
     main()

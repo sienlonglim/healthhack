@@ -10,12 +10,18 @@ Domain areas include:
 - Vector database (Pinecone)
 - Semantic search
 - Retrieval chain via LangChain Expression Language (LCEL)
+- Conversation memory
 
 
 ## Upcoming works:
-- Include document merging in chain
-- Optimize retrieval
-- User testing
+- Add pdf ingestion
+
+### 20240204:
+- Added retrieval for top k source link
+- Document merging added in notebook, but not in app yet, need to find a cleaner way to merge and still return source documents
+- Optimized login process
+- Allowed for a quick sample to be retrieved on sidebar
+- Loaded multiple websites with information related to medical report and did user testing
 
 ### 20240128:
 - Optimized chat to always show user prompt as soon as sent

@@ -89,8 +89,8 @@ def main():
            st.session_state['valid_user'], namespace = login(namespace)
     
     #------------------------------------- MAIN PAGE -----------------------------------------#
-    st.markdown("## :rocket: Health Hack: Conversational RAG Bot")    
-    st.caption('by Jeremy, Mark, Kenny and Sien Long')
+    st.markdown("## :rocket: Conversational Medical Report Explainer")    
+    st.caption('Created for Health Hack, by Jeremy, Mark, Kenny and Sien Long')
     st.caption(f"Powered by LLMs: {st.session_state.config['llm']}, {st.session_state.config['embedding_options']['model']}")
     if not st.session_state['valid_user']:
         st.warning('Enter valid username on the sidebar to begin', icon='⚠')

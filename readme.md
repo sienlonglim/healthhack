@@ -2,16 +2,21 @@
 <a href="https://github.com/sienlonglim/healthhack"><img alt="Static Badge" src="https://img.shields.io/badge/github-black?style=flat-square&logo=github"></a> <img alt="GitHub commit activity (branch)" src="https://img.shields.io/github/commit-activity/t/sienlonglim/healthhack">
 <a href="https://healthhack-rag.streamlit.app/"><img alt="Static Badge" src="https://img.shields.io/badge/Streamlit%20App-red?style=flat-square&logo=streamlit&labelColor=white"></a> 
 
-This project implements RAG as a chatbot
+This project was created for Health Hack Hackathon 2024. It is about creating a conversational assistant for explaining medical reports in medical education. The solution is to build a Conversational Assistant, such that after a patient’s initial consultation with the doctor, one can access the tool to self-help on questions about the medical report. This acts as a second layer of FAQ after healthcare professions. The solution utilizes GPT4-preview and OpenAI's embedding model to build a Conversational Retrieval Augmented Generation App. The underlying LLM will refuse to diagnose patient or give out of context answers, lowering the chances of hallucinations.
+
+<a href=https://youtu.be/YRcP2JbHZoQ>Project presentation</a>
 
 Domain areas include:
 - Document splitting
 - Embeddings (OpenAI)
-- Vector database (Pinecone)
+- Online vector database (Pinecone API)
 - Semantic search
 - Retrieval chain via LangChain Expression Language (LCEL)
-- Conversation memory
+- Conversational memory
+- Metadata retrieval
 
+![Screenshot](images/1.PNG)
+![Screenshot](images/2.PNG)
 
 ## Upcoming works:
 - Add pdf ingestion

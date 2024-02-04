@@ -15,8 +15,9 @@ Domain areas include:
 - Conversational memory
 - Metadata retrieval
 
-![Screenshot](images/1.PNG)
-![Screenshot](images/2.PNG)
+![Screenshot](images/eg1-1.PNG)
+![Screenshot](images/eg1-2.PNG)
+![Screenshot](images/eg1-3.PNG)
 
 ## Upcoming works:
 - Add pdf ingestion

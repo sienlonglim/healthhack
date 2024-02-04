@@ -17,7 +17,7 @@ Domain areas include:
 
 ![Screenshot](images/eg1-1.PNG)
 ![Screenshot](images/eg1-2.PNG)
-![Screenshot](images/eg1-3.PNG)
+![Screenshot](images/eg1-3v2.PNG)
 
 ## Upcoming works:
 - Add pdf ingestion
